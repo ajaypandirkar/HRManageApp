@@ -1,4 +1,5 @@
 using System.Net;
+using AutoMapper;
 using HRManage.API.Data;
 using HRManage.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,9 +29,15 @@ namespace HRManage.API
         {
             services.AddDbContext<DataContext>(x =>x.UseSqlite
             (Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(opt =>
+                {
+                    opt.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
             services.AddCors();
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
