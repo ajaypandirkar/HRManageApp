@@ -24,6 +24,9 @@ import { AuthGuard } from './_guards/auth.guard';
 import { UserService } from './_services/user.service';
 import { EmployeeDetailResolver } from './_resolvers/employee-detail.resolver';
 import { EmployeeListResolver } from './_resolvers/employee-list.resolver';
+import { EmployeeEditComponent } from './employees/employee-list/employee-edit/employee-edit.component';
+import { EmployeeEditResolver } from './_resolvers/employee-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 
 
@@ -50,7 +53,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       ListsComponent,
       MessagesComponent,
       EmployeeCardComponent,
-      EmployeeDetailComponent
+      EmployeeDetailComponent,
+      EmployeeEditComponent
    ],
    imports: [
       BrowserModule,
@@ -76,6 +80,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       UserService,
       EmployeeDetailResolver,
       EmployeeListResolver,
+      EmployeeEditResolver,
+      PreventUnsavedChanges,
       { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
    ],
    bootstrap: [

@@ -7,6 +7,9 @@ import { AuthGuard } from './_guards/auth.guard';
 import { EmployeeDetailComponent } from './employees/employee-list/employee-detail/employee-detail.component';
 import { EmployeeDetailResolver } from './_resolvers/employee-detail.resolver';
 import { EmployeeListResolver } from './_resolvers/employee-list.resolver';
+import { EmployeeEditComponent } from './employees/employee-list/employee-edit/employee-edit.component';
+import { EmployeeEditResolver } from './_resolvers/employee-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 export const appRoutes: Routes = [
     { path: 'home', component: HomeComponent},
@@ -19,6 +22,8 @@ export const appRoutes: Routes = [
                 resolve: {users: EmployeeListResolver}},
             { path: 'employees/:id', component: EmployeeDetailComponent,
                 resolve: {user: EmployeeDetailResolver}},
+            { path: 'employee/edit', component: EmployeeEditComponent,
+                resolve: {user: EmployeeEditResolver}, canDeactivate: [PreventUnsavedChanges]},
             { path: 'messages', component: MessagesComponent},
             { path: 'lists', component: ListsComponent},
         ]
