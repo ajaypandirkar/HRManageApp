@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HRManage.API.Data;
 using HRManage.API.DTOs;
+using HRManage.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRManage.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -34,7 +36,7 @@ namespace HRManage.API.Controllers
             return Ok(userToReturn);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetUser")]
 
         public async Task<IActionResult> GetUser(int id)
         {

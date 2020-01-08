@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using HRManage.API.Data;
 using HRManage.API.DTOs;
 using HRManage.API.Models;
@@ -19,9 +20,13 @@ namespace HRManage.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
+
+        public IMapper _mapper { get; }
+
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
         {
             _config = config;
+            _mapper = mapper;
             _repo = repo;
         }
 
@@ -34,14 +39,14 @@ namespace HRManage.API.Controllers
             if (await _repo.UserExists(userforRegisterDTO.Username))
                 return BadRequest("Username already exists");
 
-            var userToCreate = new User
-            {
-                Username = userforRegisterDTO.Username
-            };
+            var userToCreate = _mapper.Map<User>(userforRegisterDTO);
 
             var createdUser = await _repo.Register(userToCreate, userforRegisterDTO.Password);
 
-            return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForDetailedDTO>(createdUser);
+
+            return CreatedAtRoute("GetUser", new {Controller = "Users",
+                id = createdUser.Id}, userToReturn);
 
         }
 

@@ -22,6 +22,9 @@ namespace HRManage.API.Helpers
                     opt.MapFrom(scr => scr.DateOfBirth.CalculateAge()));
             CreateMap<Photo, PhotosForDetailedDTO>();
             CreateMap<UserForUpdateDTO, User>();
+            CreateMap<Photo, PhotoForReturnDTO>();
+            CreateMap<PhotoForCreationDTO, Photo>();
+            CreateMap<UserForRegisterDTO, User>();
         }
     }
 }
